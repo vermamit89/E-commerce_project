@@ -27,3 +27,12 @@ def show_1(id,db:Session=Depends(database.get_db)):
         raise HTTPException(status_code=404,detail=f'product with the id {id} not found')
 
     return product_1
+
+@router.delete('/{id}',status_code=status.HTTP_204_NO_CONTENT)
+def destroy(id,db:Session=Depends(database.get_db)):
+    product_delete=db.query(models.Product).filter(models.Product.id==id)
+    if not product_delete.first():
+        raise HTTPException(status_code=404, detail=f'product with the id {id} not found to delete')
+    product_delete.delete(synchronize_session=False)
+    db.commit()
+    return 'Deleted'
