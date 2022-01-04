@@ -1,9 +1,10 @@
 from fastapi import FastAPI
-from .routes import common
-from .models import database
+from .routes import common, products
+from .models import database, models
 
 app=FastAPI()
 
-database.base.metadata.create_all(database.engine)
+models.base.metadata.create_all(database.engine)
 
 app.include_router(common.router)
+app.include_router(products.router)
