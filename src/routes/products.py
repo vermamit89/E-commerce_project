@@ -14,3 +14,8 @@ def add_product(req:schemas.Products,db:Session=Depends(database.get_db)):
     db.commit()
     db.refresh(new_product)
     return new_product
+
+@router.get('/', status_code=status.HTTP_200_OK)
+def all(db:Session=Depends(database.get_db)):
+    products=db.query(models.Product).all()
+    return products
