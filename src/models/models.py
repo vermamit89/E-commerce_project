@@ -21,6 +21,7 @@ class Product(base):
     id=Column(Integer,primary_key=True,index=True)
     product_name=Column(String)
     mrp= Column(Float)
+    discounted_price = Column(Float)
 
     
     

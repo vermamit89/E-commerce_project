@@ -8,8 +8,8 @@ router=APIRouter(
 
 
 @router.post('/',status_code=status.HTTP_201_CREATED)
-def creat_blog(req:schemas.Products,db:Session=Depends(database.get_db)):
-    new_product=models.Product(req)
+def add_product(req:schemas.Products,db:Session=Depends(database.get_db)):
+    new_product=models.Product(product_name=req.p_name, mrp=req.mrp , discounted_price=req.discounted_price)
     db.add(new_product)
     db.commit()
     db.refresh(new_product)
