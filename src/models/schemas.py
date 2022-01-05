@@ -7,6 +7,6 @@ class User_creation(BaseModel):
     mobile:str
 
 class Products(BaseModel):
-    p_name: str
+    product_name: str
     mrp : float
     discounted_price : float

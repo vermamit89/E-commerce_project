@@ -21,11 +21,21 @@ def all(db:Session=Depends(database.get_db)):
 
 @router.post('/',status_code=status.HTTP_201_CREATED)
 def add_product(req:schemas.Products,db:Session=Depends(database.get_db)):
-    new_product=models.Product(product_name=req.p_name, mrp=req.mrp , discounted_price=req.discounted_price)
+    new_product=models.Product(product_name=req.product_name, mrp=req.mrp , discounted_price=req.discounted_price)
     db.add(new_product)
     db.commit()
     db.refresh(new_product)
     return new_product
+
+@router.put('/{id}',status_code=status.HTTP_202_ACCEPTED)
+def update(id,req:schemas.Products,db:Session=Depends(database.get_db)):
+    product_update=db.query(models.Product).filter(models.Product.id==id)
+    if not product_update.first():
+        raise HTTPException(status_code=404, detail=f'product with the id {id} not found to update')
+    
+    product_update.update(req.dict())
+    db.commit()
+    return 'updated'
 
 @router.delete('/{id}',status_code=status.HTTP_204_NO_CONTENT)
 def destroy(id,db:Session=Depends(database.get_db)):
@@ -35,3 +45,5 @@ def destroy(id,db:Session=Depends(database.get_db)):
     product_delete.delete(synchronize_session=False)
     db.commit()
     return 'Deleted'
+
+
