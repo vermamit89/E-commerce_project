@@ -14,6 +14,7 @@ class User(base):
     mobile=Column(Integer)
     isVerified=Column(Boolean)
     uniqueId=Column(String)
+    isAdmin=Column(Integer)
 
 class Product(base):
     __tablename__='Products'
